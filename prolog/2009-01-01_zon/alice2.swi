@@ -1,0 +1,37 @@
+%APRESENTACAO ZON 2009-01-01 ALICE NA FLORESTA DO ESQUECIMENTO
+%Factos 
+%mente(animal,dia-da-semana).
+mente(coelho,segunda).
+mente(coelho,terca).
+mente(coelho,quarta).
+mente(cuco,quinta).
+mente(cuco,sexta).
+mente(cuco,sabado).
+
+%verdade(animal,dia-da-semana)
+verdade(coelho,quinta).
+verdade(coelho,sexta).
+verdade(coelho,sabado).
+verdade(coelho,domingo).
+verdade(cuco,domingo).
+verdade(cuco,segunda).
+verdade(cuco,terca).
+verdade(cuco,quarta).
+
+%ontem(hoje,ontem).
+ontem(domingo,sabado).
+ontem(segunda,domingo).
+ontem(terca,segunda).
+ontem(quarta,terca).
+ontem(quinta,quarta).
+ontem(sexta,quinta).
+ontem(sabado,sexta).
+
+%mentiuOntem(animal,dia) ontem foi um dos dias que eu menti!
+%esta a mentir OU entao disse a verdade e mentiu ontem. 
+mentiuOntem(A,D):-mente(A,D).
+mentiuOntem(A,D):-verdade(A,D),ontem(D,O),mente(A,O).
+
+%diadehoje(Dia)
+diadehoje(D):-mentiuOntem(coelho,D),mentiuOntem(cuco,D).
+

@@ -1,0 +1,38 @@
+progenitor(maria, jose).
+progenitor(joao, jose).
+progenitor(joao, ana).
+progenitor(jose, julia).
+progenitor(jose, iris).
+progenitor(iris, jorge).
+
+masculino(joao).
+masculino(jose).
+masculino(jorge).
+
+feminino(maria).
+feminino(julia).
+feminino(ana).
+feminino(iris).
+
+sexo(joao,masculino).
+sexo(jose,masculino).
+sexo(jorge,masculino).
+
+sexo(maria,feminino).
+sexo(julia,feminino).
+sexo(ana,feminino).
+sexo(iris,feminino).
+
+filho(X,Y):-progenitor(Y,X).
+
+mae(X,Y):- progenitor(X,Y), feminino(X).
+
+avo(X,Z):- progenitor(X,Y), progenitor(Y,Z).
+
+irma(X,Y):- progenitor(Z,X), progenitor(Z,Y), feminino(X), X\=Y.
+
+antepassado(X,Z):-progenitor(X,Z).
+antepassado(X,Z):-progenitor(X,Y), antepassado(Y,Z).
+
+temFilho(X):-progenitor(X,_).
+

@@ -1,0 +1,55 @@
+% Considere a seguinte historia:
+% A Alice tinha ma memoria. 
+% Um dia entrou na Floresta do Esquecimento e esqueceu-se do dia-da-semana. 
+% Os seus amigos Coelho e Cuco sao visitantes frequentes da
+% floresta. Estes dois sao criaturas estranhas. 
+% O Coelho mente as Segundas, Tercas e Quartas e diz a verdade no 
+% resto da semana. Por outro lado o Cuco mente as
+% Quintas, Sextas e Sabados e diz a verdade nos outros dias. 
+% Um certo dia a Alice encontrou
+% estes dois debaixo de uma arvore. Eles fizeram as seguintes declaracoes:
+% * Coelho: ontem foi um dos dias em que eu menti.
+% * Cuco: ontem foi um dos dias em que eu menti.
+
+% A Alice foi capaz, usando estas declaracoes, de deduzir o dia-da-semana 
+% em que se encontrava.
+
+% 1. Escreva uma Base de Conhecimento que represente o conhecimento 
+% descrito nesta
+% historia.
+
+% 2. Escreva um predicado diadehoje/1 que 
+% lhe permita saber qual o dia-da-semana usando
+% o conhecimento representado.
+
+mente(coelho, segunda).
+mente(coelho, terca).
+mente(coelho, quarta).
+mente(cuco, quinta).
+mente(cuco, sexta).
+mente(cuco, sabado).
+
+verdade(coelho, quinta).
+verdade(coelho, sexta).
+verdade(coelho, sabado).
+verdade(coelho, domingo).
+verdade(cuco, domingo).
+verdade(cuco, segunda).
+verdade(cuco, terca).
+verdade(cuco, quarta).
+
+ontem(domingo, sabado).
+ontem(segunda, domingo).
+ontem(terca, segunda).
+ontem(quarta, terca).
+ontem(quinta, quarta).
+ontem(sexta, quinta).
+ontem(sabado, sexta).
+
+%mentiu(animal,dia)
+%esta a mentir ou entao disse a verdade e mentiu ontem
+mentiu(X,Y):- mente(X,Y).
+mentiu(X,Y):- verdade(X,Y),ontem(Y,Z),mente(X,Z) .
+
+diadehoje(X):-mentiu(coelho,X), mentiu(cuco,X).
+

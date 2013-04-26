@@ -1,0 +1,1072 @@
+% $Header: /home/vedranm/bitbucket/beamer/solutions/conference-talks/conference-ornate-20min.en.tex,v 90e850259b8b 2007/01/28 20:48:30 tantau $
+
+\documentclass[portuges]{beamer}
+
+\mode<presentation>
+{
+  \usetheme{Warsaw}
+  \setbeamercovered{transparent}
+}
+
+\usepackage{babel}
+
+\usepackage[utf8x]{inputenc}
+
+\usepackage{times}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{latexsym}
+%\usepackage{amstex}
+
+\title[Fuzzy \& SIAD] %
+{Lógica Fuzzy aplicada a \\Sistemas de Informação de Apoio à Decisão}
+
+
+\author[António Sérgio Matos da Silva] %
+{António Sérgio Matos da Silva \\ \texttt{an.silva@logica.com}}
+
+\institute[Logica] % 
+{
+  Telecommunication Business\\
+  Logica
+}
+
+\date[Reunião Mensal Zon] % 
+{\today\\Reunião Mensal Zon}
+
+\subject{Theoretical Computer Science}
+
+
+% Delete this, if you do not want the table of contents to pop up at
+% the beginning of each subsection:
+\AtBeginSubsection[]
+{
+  \begin{frame}<beamer>{Programa}
+    \tableofcontents[currentsection,currentsubsection]
+  \end{frame}
+}
+
+\pgfdeclareimage[height=0.5cm]{logo}{img/logo}
+\logo{\pgfuseimage{logo}}
+
+%\beamerdefaultoverlayspecification{<+->}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%MY SPECS
+\newtheorem{convention}[theorem]{Convenção}
+\newtheorem{proposition}[theorem]{Proposição}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\begin{frame}
+\begin{quote}
+``À medida que a complexidade aumenta, 
+as declarações precisas perdem relevância e as declarações relevantes perdem precisão.'' 
+\end{quote}
+\begin{quote}
+Lofti Zadeh
+\end{quote}
+\end{frame}
+
+\begin{frame}{Programa}
+  \tableofcontents[pausesections]
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%APRESENTACAO%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Breve contextualização Teórica}
+\subsection{Motivação}
+
+\begin{frame}{Como ``Raciocina'' um Computador Tradicional?}
+\pgfdeclareimage[width=.6\textwidth]{pcthink}{img/pcthink}
+\begin{figure}
+\centering
+\pgfuseimage{pcthink}
+\caption{Funcionamento de um PC}
+\end{figure}
+\end{frame}
+
+
+\begin{frame}{Pensamento Lógico Humano}
+\pgfdeclareimage[width=.6\textwidth]{larrythink}{img/larrythink}
+\begin{figure}
+\centering
+\pgfuseimage{larrythink}
+\caption{Funcionamento do cérebro de Larry Wall}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Motivação}
+\begin{itemize}[<+->]
+	\item Tradicionalmente, o comportamento dos sistemas é realizado
+		pela representação da lógica de Boole, aceitando apenas dois resultados
+		\alert{zero ou um}, \alert{verdadeiro ou falso}, tudo ou nada.
+	\item No entanto, em muitas situações não relevamos esta dicotomia comportamental.
+		\begin{itemize}
+			\item Apesar de à partida, uma pessoa com $1.75\ m$ ser alta, esta não é assim
+			tão alta;
+			\item Quando alguém nos diz que nos ama, \alert{não sabemos o quanto} esta nos ama;
+			\item Nem sempre precisamos de obter um resultado baseado numa \alert{certeza},
+			ficamos satisfeitos apenas com um certo grau de \alert{confiança}.
+		\end{itemize}		 
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Analogia}
+	\pgfdeclareimage[height=2.5cm]{rightcurve}{img/rightcurve}
+	\begin{example}
+			\begin{figure}
+			\centering
+			\pgfuseimage{rightcurve}
+			\end{figure}
+
+			Pretende-se comparar os dois mecanismos
+			para efectuar a curva à direita.		 	
+	\end{example}
+\end{frame}
+\begin{frame}{Analogia}
+\begin{columns}[T]
+  		\begin{column}{5cm}
+		    \begin{block}{Booleana}<1->  				
+				\begin{enumerate}[<+->]
+					\item Pressionar o travão com uma força de $20\ Newtons$.
+					\item Inclinar o volante $15\ graus$ para a Direita
+					\item Colocar o volante na posição inicial ($0\ graus$).
+				\end{enumerate}		
+			\end{block}
+		  \end{column}
+		  \begin{column}{5cm}
+		    \begin{block}{Humana}<4->
+  			\begin{enumerate}[<+->]
+					\item Reduza a velocidade.
+
+					\item Vire \alert{um pouco} para a direita
+					\item Vire \alert{mais um pouco} para a direita
+					\item Siga em frente.
+				\end{enumerate}		
+		    \end{block}
+
+		  \end{column}
+		\end{columns}
+
+\end{frame}
+
+
+\subsection{História e Uso da Lógica Fuzzy}
+
+\begin{frame}{Resumo Histórico\ldots}
+
+	\pgfdeclareimage[height=3cm]{lukasiewicz}{img/Lukasiewicz}
+   \begin{columns}
+	\begin{column}{7cm}
+	\begin{itemize}[<+->]
+		\item[1930] Jan Lukasiewz propôs o estudo de termos qualitativos do tipo alto, velho e quente 
+		e propôs a idéia da utilização de um intervalo de valores entre $0$ e $1$ para descrever a veracidade
+		de uma dada afirmação;
+		\item[1937] Max Black definiu o primeiro conjunto fuzzy e descreveu algumas idéias básicas de operações com estes.
+	\end{itemize}
+	\end{column}
+	\begin{column}{4cm}
+		\begin{figure}
+			\centering
+			\pgfuseimage{lukasiewicz}
+			\caption{Jan Lukasiewicz (1878--1956)}
+		\end{figure}
+	\end{column}	
+   \end{columns}
+\end{frame}
+
+\begin{frame}{Resumo Histórico\ldots}
+\pgfdeclareimage[height=3cm]{zadeh}{img/zadeh}
+   \begin{columns}
+	\begin{column}{7cm}
+	\begin{itemize}[<+->]
+		\item[1965] Lofti Zadeh publicou o artigo Fuzzy Sets que ficou
+		conhecido como a origem da Lógica Fuzzy. Zadeh é conhecido como
+		o ``mestre'' da Lógica Fuzzy.
+	\end{itemize}
+	\end{column}
+	\begin{column}{4cm}
+		\begin{figure}
+			\centering
+			\pgfuseimage{zadeh}
+			\caption{Lofti Zadeh (1921--Actualidade)}
+		\end{figure}
+	\end{column}	
+   \end{columns}
+\end{frame}
+
+\begin{frame}{Uso da Lógica Fuzzy}
+\begin{itemize}
+	\item[1970] Primeira aplicação da Lógica Fuzzy na engenharia de controlo;
+	\item[1975] Introdução da Lógica Fuzzy no Japão;
+        \item[1985] Ampla utilização no Japão;
+        \item[1990] Ampla utilização na Europa;
+        \item[1995] Ampla utilização nos EUA;
+        \item[1996] 1100 aplicações com Lógica Fuzzy publicadas; 
+	\item[2000] Aplicada a finanças e controle multi-variável.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Porquê usar Fuzzy?}
+\begin{block}{Vantagens da Lógica Fuzzy}
+\begin{itemize}
+	\item<1-> Robusta porque não requer entradas precisas;
+	\item<2-> Facilmente modificável pois é baseada em regras;
+	\item<3-> Evita o formalismo matemático para sistemas não lineares;
+	\item<3-> Solução rápida e barata para sistemas complexos não lineares;
+	\item<4-> Implementável em microprocessadores.
+\end{itemize}
+\end{block}
+\end{frame}
+
+
+\subsection{Fundamentos da Lógica Fuzzy}
+
+\begin{frame}{Conceito de Difusidade}
+	\pgfdeclareimage[height=3cm]{arcond}{img/arcond}  	
+	\begin{figure}
+			\centering
+			\pgfuseimage{arcond}
+	\end{figure}
+		
+	\begin{example}[O caso do ar condicionado]
+  		No edifício Pinta o ar condicionado encontra-se constantemente
+		avariado. Pretende-se desenvolver uma lógica que pretende 
+		avaliar se uma dada temperatura é \alert{confortável} ou não.
+	\end{example}
+\end{frame}
+
+\begin{frame}{Conceito de Difusidade}
+	\pgfdeclareimage[width=.6\textwidth]{fuzzy1}{img/fuzzy1}	
+	\begin{quote}
+		Numa primeira análise vem o José e diz que a temperatura ideal
+		para ele é de exactamente $20º\ C$.
+	\end{quote}
+	\begin{figure}
+			\centering
+			\pgfuseimage{fuzzy1}
+			\caption{Função de Verdade de uma Lógica tipicamente Booleana.}
+	\end{figure}
+\end{frame}
+
+\begin{frame}{Conceito de Difusidade}
+	\pgfdeclareimage[width=.5\textwidth]{fuzzy2}{img/fuzzy2}	
+	\begin{quote}
+		No entanto o Miguel discorda com valor estipulado anteriormente. ``Vamos
+		lá ver! Se a temperatura for 18 ou 22 não deixa de ser bom também!'' 
+	\end{quote}
+	\begin{figure}
+			\centering
+			\pgfuseimage{fuzzy2}
+			\caption{Função de Verdade de uma Lógica na Cabeça do ``Miguel''.}
+	\end{figure}
+\end{frame}
+
+\begin{frame}{Conceito de Difusidade}
+	\pgfdeclareimage[width=.4\textwidth]{fuzzy3}{img/fuzzy3}	
+	\begin{quote}
+		No dia seguinte já com o ar condicionado a funcionar e uma
+		temperatura a funcionar o Miguel pergunta ao Pedro.\\
+		``Bom dia! Está bom tempo hoje!''\\
+		Ao que este responde:\\
+		``Sim está. \alert{Nem muito quente nem muito frio}\ldots''  
+	\end{quote}
+	\begin{figure}
+			\centering
+			\pgfuseimage{fuzzy3}
+			\caption{Função de Verdade de uma Lógica Fuzzy.}
+	\end{figure}
+\end{frame}
+
+\begin{frame}{Conceito de Difusidade}
+	\pgfdeclareimage[width=.6\textwidth]{fuzzy3_1}{img/fuzzy3_1}	
+	\begin{quote}
+		Na verdade o que o Pedro pensou\ldots
+	\end{quote}
+	\begin{figure}
+			\centering
+			\pgfuseimage{fuzzy3_1}
+			\caption{Função de Verdade de uma Lógica Fuzzy representando mais do que uma valoração ao mesmo tempo.}
+	\end{figure}
+\end{frame}
+
+\begin{frame}{Definições Fuzzy --- Etiqueta linguística}
+	\begin{definition}
+		A descrição de inúmeras situações concretas referentes a uma dada variável faz-se por intermédio de \alert{etiquetas
+		linguísticas}. Estas representam o carácter \alert{qualitativo} de todas as possibilidades de uma dada variável.
+	\end{definition}
+	
+	\begin{exampleblock}{Etiquetas Bivalentes}<2->
+		\begin{itemize}
+			\item Lento;
+			\item Rápido.
+		\end{itemize}	
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{Definições Fuzzy --- Exemplo de Etiquetas Linguísticas}
+	\begin{exampleblock}{Etiquetas Trivalentes}
+		\begin{itemize}
+			\item Baixo;
+			\item Médio;
+			\item Alto.
+		\end{itemize}	
+	\end{exampleblock}
+	
+	\begin{exampleblock}{Etiquetas Multivalentes}
+		\begin{itemize}
+			\item Muito Frio
+			\item Frio;
+			\item Moderado;
+			\item Quente;
+			\item Muito Quente.
+		\end{itemize}	
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{Definições Fuzzy --- Variável Linguística}
+		\pgfdeclareimage[width=.6\textwidth]{continuousfuzzy}{img/fuzzy3}	
+	\begin{definition}<1->
+		Uma variável linguística pode ser contínua ou discreta.
+		\end{definition}
+	\begin{example}<2->[Temperatura]	
+	\begin{figure}
+			\centering
+			\pgfuseimage{continuousfuzzy}
+			\caption{Exemplo de Variável Linguística contínua.}
+	\end{figure}
+	\end{example}
+\end{frame}
+
+\begin{frame}
+	\pgfdeclareimage[width=.6\textwidth]{discretefuzzy}{img/fuzzydiscrete}
+	\begin{example}[Rodas de um camião]
+	\begin{figure}
+			\centering
+			\pgfuseimage{discretefuzzy}
+			\caption{Exemplo de Variável Linguística Discreta.}
+	\end{figure}	
+	\end{example}
+\end{frame}
+
+\begin{frame}{Definições Fuzzy --- Conjuntos Fuzzy no Mundo Real}
+	\pgfdeclareimage[width=.4\textwidth]{realworldfuzzy}{img/realworldfuzzy}
+	\begin{convention}
+		Geralmente os Sistemas de Informação baseados num sistema de decisão Fuzzy
+		usam a seguinte simplificação das etiquetas. A partir de agora usaremos também
+		esta notação.
+	\end{convention}
+
+	\begin{example}[Conjunto Fuzzy no Mundo Real]
+	\begin{figure}
+			\centering
+			\pgfuseimage{realworldfuzzy}
+			\caption{Exemplo de Variável Linguística Contínua do Mundo Real.}
+	\end{figure}	
+	\end{example}
+\end{frame}
+
+\frame[label=eqpertenca]
+{
+  \frametitle{Definições Fuzzy --- Etiquetas e Conjuntos Fuzzy}
+	\pgfdeclareimage[width=.4\textwidth]{pertenca}{img/pertenca}  	
+	\begin{definition}
+		Seja $X$ uma Etiqueta Linguística. Esta é representada por um Conjunto Fuzzy $\mathcal{C}$ descrito pela
+		função de pertença $\mu_X(x_0)$.
+	\end{definition}
+		
+	\begin{figure}
+			\centering
+			\pgfuseimage{pertenca}
+			\caption{Etiqueta Linguística e respectiva Função Pertença.}
+	\end{figure}		
+
+    \hyperlink{eqpertencadetail}{\beamergotobutton{Equação Detalhe}}
+}
+
+\begin{frame}{Definições Fuzzy --- Suporte}
+\pgfdeclareimage[width=.4\textwidth]{support}{img/support}  	
+\begin{definition}
+		Seja $X$ uma Etiqueta Linguística. Designa-se por Suporte de $X$ ($\mathcal{S}_X$)
+		a zona em que a sua função pertença não é nula. Ou seja: $\{\mu_X(x_0) \ \vert \ \mu_X(x_0) \neq 0 \land x_0 \in [0,1] \}$
+	\end{definition}
+
+	\begin{figure}
+			\centering
+			\pgfuseimage{support}
+			\caption{Suporte de uma Etiqueta Linguística}
+	\end{figure}
+\end{frame}
+
+\begin{frame}{Definições Fuzzy --- Núcleo}
+\pgfdeclareimage[width=.4\textwidth]{nucleo}{img/nucleo}  	
+\begin{definition}
+		Seja $X$ uma Etiqueta Linguística. Designa-se por Núcleo de $X$ ($\mathcal{N}_X$)
+		a zona em que a sua função pertença é máxima. Ou seja: $\{\mu_X(x_0) \ \vert \ \mu_X(x_0) = 1 \land x_0 \in [0,1] \}$
+	\end{definition}
+
+	\begin{figure}
+			\centering
+			\pgfuseimage{nucleo}
+			\caption{Núcleo de uma Etiqueta Linguística}
+	\end{figure}
+\end{frame}
+
+\begin{frame}{Definições Fuzzy --- Variável Linguística Normada}  	
+\pgfdeclareimage[width=.5\textwidth]{notnormada}{img/notnormada}  	
+\begin{definition}
+		Uma Variável Línguística diz-se Normada se esta gera um discurso limitado pelo 
+		conjunto $[-1,1]$
+	\end{definition}
+		\begin{figure}
+			\centering
+			\pgfuseimage{notnormada}
+			\caption{Variável não normada.}
+	\end{figure}
+\end{frame}
+
+\begin{frame}{Definições Fuzzy --- Variável Linguística Normada Exemplo}  	
+\pgfdeclareimage[width=.6\textwidth]{normada}{img/normada}  	
+	\begin{example}[Variável Linguística Normada]		
+	\begin{figure}
+			\centering
+			\pgfuseimage{normada}
+			\caption{Variável normada à escala 1/120.}
+	\end{figure}
+	\end{example}
+\end{frame}
+
+\begin{frame}{Operações Com Conjuntos Fuzzy}
+	\begin{proposition}
+		Seja $\mho$ o Universo de uma Variável Linguística
+		e sejam $\mathcal{A}$ e $\mathcal{B}$ dois Conjuntos Fuzzy 
+		definidos por:
+		$$
+			\begin{array}{ccc}
+				\mathcal{A} & = & \{ (x,\mu_\mathcal{A}(x))\ \vert\ x \in \mho \land \mu_\mathcal{A}(x) \in [0,1] \} \\
+				\mathcal{B} & = & \{ (x,\mu_\mathcal{B}(x))\ \vert\ x \in \mho \land \mu_\mathcal{B}(x) \in [0,1] \}
+			\end{array}
+		$$   
+	\end{proposition}
+\end{frame}
+
+\begin{frame}{Operações Com Conjuntos Fuzzy --- União}
+	\pgfdeclareimage[width=.4\textwidth]{orvenn}{img/orvenn}  	
+
+	\begin{definition}[União]
+	A união entre $\mathcal{A}$ e $\mathcal{B}$ é definida por:
+	$$	
+	\mathcal{A} \cup \mathcal{B} = \{ ( x , max(\mu_\mathcal{A}(x),\mu_\mathcal{B}(x)))\ \vert\ x \in \mho \} 
+	$$
+	\end{definition}	
+\begin{figure}
+			\centering
+			\pgfuseimage{orvenn}
+			\caption{Diagrama de Venn da União de dois Conjuntos}
+	\end{figure}	
+\end{frame}
+
+\begin{frame}{Operações Com Conjuntos Fuzzy --- Intersecção}
+	\pgfdeclareimage[width=.4\textwidth]{andvenn}{img/andvenn}  	
+
+	\begin{definition}[Intersecção]
+	A Intersecção entre $\mathcal{A}$ e $\mathcal{B}$ é definida por:
+	$$	
+	\mathcal{A} \cap \mathcal{B} = \{ ( x , min(\mu_\mathcal{A}(x),\mu_\mathcal{B}(x)))\ \vert\ x \in \mho \} 
+	$$
+	\end{definition}	
+\begin{figure}
+			\centering
+			\pgfuseimage{andvenn}
+			\caption{Diagrama de Venn da Intersecção de dois Conjuntos}
+	\end{figure}	
+\end{frame}
+
+\begin{frame}{Operações Com Conjuntos Fuzzy --- Complemento}
+	\pgfdeclareimage[width=.25\textwidth]{notvenn}{img/notvenn}  	
+
+	\begin{definition}[Complemento]
+	O Complemento de $\mathcal{A}$ é definido por:
+	$$	
+	\lnot\mathcal{A} = \{ ( x , \mu_{\lnot\mathcal{A}}(x) )\ \vert\ x \in \mho \land \mu_{\lnot\mathcal{A}}(x) = 1 - \mu_{\mathcal{A}}(x) \} 
+	$$
+	\end{definition}	
+\begin{figure}
+			\centering
+			\pgfuseimage{notvenn}
+			\caption{Diagrama de Venn do Complemento de um Conjunto}
+	\end{figure}	
+\end{frame}
+
+\begin{frame}{Modificadores Linguísticos}
+	\begin{definition}
+		Seja $\mathcal{A}$ um conjunto Fuzzy intervalar com a função de pertinência $\mu_\mathcal{A}{x}$.
+		Então o \emph{Modificador Línguístico} de $\mathcal{A}$ é uma função intervalar $\mathcal{M}$ definida por:
+		$$\mathcal{M}:\mathcal{I}[0,1] \to \mathcal{I}[0,1] $$
+		que age na função pertinência $\mu_{\mathcal{I}\mathcal{A}}{x}$ transformando-a em $\mu_{m\mathcal{I}\mathcal{A}}{x}$ onde:
+		$$\mu_{m\mathcal{I}\mathcal{A}}(x) = \mathcal{M}(\mu_{\mathcal{I}\mathcal{A}}(x))$$
+	\end{definition}
+\end{frame}
+
+\begin{frame}{Modificadores Linguísticos --- Very}
+	\pgfdeclareimage[height=3cm]{muito}{img/muito}  		
+	\begin{definition}[Very]
+		O modificador \alert{Very} (muito) define-se por:
+		$$\mu_{v\mathcal{A}}{x} = \mu_{v\mathcal{A}}^2{x}$$ 
+	\end{definition}
+	\begin{figure}
+			\centering
+			\pgfuseimage{muito}
+			\caption{Representação Gráfica do Modificador Very}
+	\end{figure}	
+\end{frame}
+
+\begin{frame}{Modificadores Linguísticos --- Somewhat}
+	\pgfdeclareimage[height=3cm]{pouco}{img/pouco}  		
+	\begin{definition}[Somewhat]
+		O modificador \alert{Somewhat} (pouco) define-se por:
+		$$\mu_{v\mathcal{A}}{x} = \sqrt[2]{\mu_{v\mathcal{A}}{x}}$$ 
+	\end{definition}
+	\begin{figure}
+			\centering
+			\pgfuseimage{pouco}
+			\caption{Representação Gráfica do Modificador Somewhat}
+	\end{figure}	
+\end{frame}
+
+\begin{frame}{Modificadores Linguísticos --- Above}
+	\pgfdeclareimage[height=3cm]{acima}{img/acima}  		
+	\begin{definition}[Above]
+		O modificador \alert{Above} (acima) define-se por:
+		$$\mu_{v\mathcal{A}}{x} =\mu_{v\mathcal{A}}{x} - \delta$$ 
+	\end{definition}
+	\begin{figure}
+			\centering
+			\pgfuseimage{acima}
+			\caption{Representação Gráfica do Modificador Above}
+	\end{figure}	
+\end{frame}
+
+\begin{frame}{Modificadores Linguísticos --- Below}
+	\pgfdeclareimage[height=3cm]{abaixo}{img/abaixo}  		
+	\begin{definition}[Below]
+		O modificador \alert{Below} (abaixo) define-se por:
+		$$\mu_{v\mathcal{A}}{x} = \mu_{v\mathcal{A}}{x} + \delta$$ 
+	\end{definition}
+	\begin{figure}
+			\centering
+			\pgfuseimage{abaixo}
+			\caption{Representação Gráfica do Modificador Below}
+	\end{figure}	
+\end{frame}
+
+\begin{frame}{Modificadores Linguísticos --- Not}
+	\pgfdeclareimage[height=3cm]{nao}{img/nao}  		
+	\begin{definition}[Not]
+		O modificador \alert{Not} (não) define-se por:
+		$$\mu_{v\mathcal{A}}{x} = 1 - \mu_{v\mathcal{A}}{x}$$ 
+	\end{definition}
+	\begin{figure}
+			\centering
+			\pgfuseimage{nao}
+			\caption{Representação Gráfica do Modificador Not}
+	\end{figure}	
+\end{frame}
+
+\begin{frame}{Modificadores Linguísticos --- Not Very}
+	\pgfdeclareimage[height=3cm]{naomuito}{img/naomuito}  		
+	\begin{definition}[Not Very]
+		O modificador \alert{Not Very} (não muito) define-se por:
+		$$\mu_{v\mathcal{A}}{x} = 1 - \mu_{v\mathcal{A}}^2{x}$$ 
+	\end{definition}
+	\begin{figure}
+			\centering
+			\pgfuseimage{naomuito}
+			\caption{Representação Gráfica do Modificador Not Very}
+	\end{figure}	
+\end{frame}
+
+\begin{frame}{Inferência}
+\begin{block}{Interferência}
+\begin{itemize}[<+->]
+\item
+Para fazer deduções com conjuntos difusos utilizam-se \alert{regras de inferência},
+		formatando afirmações condicionais como implicações do tipo ``if-then'';
+\item O antecedente
+		diz respeito às ``condições lógicas'' impostas sobre essa variável linguística;
+\item O consequente
+		diz respeito às ``acções'' decorrentes dessas condições na variável de saída;
+\item No controlo difuso costumam haver múltiplas regras de inferência, de acordo com a natureza 
+dos estados medidos no processo.
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}{Inferência}
+\begin{example}[Base de Regras]
+$$
+	\begin{array}{ccccc}
+	if & (antecedente_1) & then & (consequente_1) & or \\
+	if & (antecedente_2) & then & (consequente_2) & or \\
+	 &  & ... &  & \\
+	if & (antecedente_n) & then & (consequente_n) &
+	\end{array}
+$$
+\end{example}
+\end{frame}
+
+\begin{frame}{Pausa\ldots}
+\pgfdeclareimage[width=0.9\textwidth]{kitkat}{img/kit_kat}  	
+\begin{figure}
+			\centering
+			\pgfuseimage{kitkat}
+	\end{figure}		
+\end{frame}
+
+\section{Estado da Arte}
+\subsection{Estilo Mamdami}
+
+\begin{frame}{História do Estilo Mamdami}
+\pgfdeclareimage[width=2.5cm]{mamdani}{img/mamdani}
+\begin{block}{Estilo Mamdani}
+	\begin{columns}	
+	\begin{column}{7cm}
+	O estilo de inferência Mandani foi criado pelo professor Mandani da Universidade de Londres
+	em 1975. O seu principal objectivo era desenvolver sistemas Fuzzy, baseando-se em regras de conjuntos Fuzzy 
+	com o intuito de representar experiências da vida real.
+	\end{column}
+	\begin{column}{3cm}
+		\begin{figure}
+			\centering
+			\pgfuseimage{mamdani}
+			\caption{Ebrahim Mamdani (1943--2010)}
+		\end{figure}		
+	\end{column}
+	\end{columns}
+\end{block}
+\end{frame}
+
+\begin{frame}{Estilo Mamdani}
+	\begin{definition}{Estilo Mamdani}
+		O processo de raciocínio do \alert{Estilo Mamdani} é implementado seguindo as quatro etapas seguintes:
+		\begin{enumerate}[<+->]
+			\item Fuzzyficação;
+			\item Avaliação das Regras Fuzzy;
+			\item Agregação das Regras Fuzzy;
+			\item Defuzzyficação.
+		\end{enumerate}
+	\end{definition}
+\end{frame}
+
+\begin{frame}{Exercício}
+\begin{example}[Análise de Risco]
+	Considere a análise de riscos num projecto. 
+	Pretende-se estabelecer, sendo conhecidos um valor $x$ de recurso 
+	monetário e um número $y$ de funcionários para trabalhar no mesmo,
+	qual o risco $z$ nesse projecto.
+\end{example}
+\end{frame}
+
+\begin{frame}{Variáveis de Entrada}
+	\begin{columns}
+	\begin{column}{5cm}
+	\begin{tabular}{c|c} 
+		\hline
+		\multicolumn{2}{c}{{\textbf{Fundos do projecto($x$)}}}\\ 
+		\hline
+		Valor linguístico & Notação \\ \hline
+		Inadequado & A1 \\
+		Razoável & A2 \\ 
+		Adequado & A3 \\ \hline
+	\end{tabular}
+	\end{column}
+	\begin{column}{5cm}
+	\begin{tabular}{c|c} 
+		\hline
+		\multicolumn{2}{c}{{\textbf{Funcionários do Projecto($y$)}}}\\ 
+		\hline
+		Valor linguístico & Notação \\ \hline
+		Pequeno & B1 \\ 
+		Grande & B2 \\ \hline
+	\end{tabular}
+	\end{column}
+	\end{columns}
+\end{frame}
+
+\begin{frame}{Variáveis de Saída}
+\begin{tabular}{c|c} 
+		\hline
+		\multicolumn{2}{c}{{\textbf{Risco do Projecto($z$)}}}\\ 
+		\hline
+		Valor linguístico & Notação \\ \hline
+		Baixo & C1 \\
+		Normal & C2 \\ 
+		Alto & C3 \\ \hline
+	\end{tabular}
+\end{frame}
+
+\begin{frame}{Fuzzyficação}
+	\begin{example}[Entradas Crisp]
+		Sejam $x$ e $y$ duas entradas crisp representando os conjuntos Fuzzy $X$ (Fundos do Projecto)
+		e $Y$ (Funcionários do Projecto respectivamente). Então aplicando as entradas as conjuntos Fuzzy obtemos o valor
+		das funções de pertença.
+	\end{example}
+
+	
+\end{frame}
+
+\begin{frame}{Fuzzyficacao da Variável referente aos Fundos do Projecto}
+\pgfdeclareimage[height=4cm]{fuzzyfic1}{img/fuzzyfic1}
+	\begin{figure}
+			\centering
+			\pgfuseimage{fuzzyfic1}
+			\caption{Fuzzyficacao da Variável referente aos Fundos do Projecto}
+		\end{figure}		
+\end{frame}
+
+\begin{frame}{Fuzzyficacao da Variável referente aos Funcionários do Projecto}
+\pgfdeclareimage[height=4cm]{fuzzyfic2}{img/fuzzyfic2}
+	\begin{figure}
+			\centering
+			\pgfuseimage{fuzzyfic2}
+			\caption{Fuzzyficacao da Variável referente aos Funcionários do Projecto}
+		\end{figure}		
+\end{frame}
+
+\begin{frame}{Variáveis de Entrada Fuzzificadas}
+	\begin{columns}
+	\begin{column}{5cm}
+	\begin{tabular}{c|c} 
+		\hline
+		\multicolumn{2}{c}{{\textbf{Fundos do projecto ($x$)}}}\\ 
+		\hline
+		Etiqueta & Valor \\ \hline
+		 A1 & $0.5$ \\
+		A2  & $0.2$ \\ 
+		A3 & $0$ \\ \hline
+	\end{tabular}
+	\end{column}
+	\begin{column}{5cm}
+	\begin{tabular}{c|c} 
+		\hline
+		\multicolumn{2}{c}{{\textbf{Funcionários do Projecto ($y$)}}}\\ 
+		\hline
+		Etiqueta & Valor \\ \hline
+		 B1 & $0.1$ \\ 
+		 B2 & $0.7$ \\ \hline
+	\end{tabular}
+	\end{column}
+	\end{columns}
+\end{frame}
+
+\begin{frame}{Avaliação das Regras Fuzzy}
+	\begin{example}[Avaliação das Regras Fuzzy]
+		Com base nos graus de pertinência e nas correlações entre as variáveis linguísticas, têm-se as regras.
+		\begin{enumerate}[<+->]
+			\item \alert{IF} (($x$ is $A3 (0)$) \alert{OR} ($y$ is $B1 (0.1)$)) \alert{THEN} ($z$ is $C1 (0.1)$)
+			\item IF (($x$ is $A2 (0.2)$) \alert{AND} ($y$ is $B2 (0.7)$)) THEN ($z$ is $C2 (0.2)$)
+			\item IF ($x$ is $A1 (0.5)$ THEN ($z$ is $C3 (0.5)$))
+		\end{enumerate}
+	\end{example}
+\end{frame}
+
+\begin{frame}{Agregação das Regras Fuzzy}
+	\pgfdeclareimage[height=4cm]{agrega}{img/agrega}
+	\begin{figure}
+			\centering
+			\pgfuseimage{agrega}
+			\caption{Conjunto Fuzzy Resultante do Processo de Agregação das Regras Fuzzy}
+		\end{figure}		
+\end{frame}
+
+\begin{frame}{Defuzzyficação}
+	\begin{definition}[Defuzzyficação]
+		O método de defuzzyficação mais comum é a técnica do centróide, que 
+		obtém o ponto onde uma linha vertical divide ao meio um conjunto agregado.
+		A equação que descrever o cálculo da centróide é a seguinte $\mathcal{COG}$:
+		$$
+			\mathcal{COG} = \frac{\sum_{x=a}^{b}\mu(x) \cdot x}{\sum_{x=a}^{b}\mu(x)}
+		$$
+	\end{definition}
+\end{frame}
+
+\begin{frame}{Defuzzyficação --- Exemplo}
+\begin{example}
+Considerando o conjunto Fuzzy anterior, o resultado numérico obtido com a aplicação técnica do centróide $\mathcal{COG}$ é dado
+por (considerando intervalos percentuais de $10\%$, variando de $0\%$ a $100\%$):
+		$$
+			\mathcal{COG} = \frac{ \begin{array}{c}
+						(0 + 10 + 20) \cdot 0.1 + \\
+						(30 + 40 +50) \cdot 0.2 + \\
+						(60 + 70 + 80 + 90 + 100)\cdot 0.5 
+						\end{array}}
+					{\begin{array}{c}
+						0.1 + 0.1 + 0.1 + \\
+						0.2 + 0.2 + 0.2 + \\
+						0.5 + 0.5 + 0.5 + 0.5
+					 \end{array}} = 67.4
+		$$
+Assim tem-se que o risco do projecto em questão é de $67.4\%$.
+\end{example}
+\end{frame}
+
+\subsection{Bousi-Prolog}
+
+\begin{frame}{Breve História\ldots}
+\begin{itemize}[<+->]
+	\item[-] Os matemáticos descobriram que apesar da lógica 
+	de primeira ordem não ser automaticamente dedutível,
+	existem subconjuntos que o são;
+	\item[1965] Robinson definiu a dedução automática;
+	\item[1969] Green Implementou um sistema de Resolução em Lisp
+	\item[1970] Kowalsky começa a usar as Cláusulas de Horn (subconjunto
+	da lógica da 1ª ordem) para ``provas automáticas''.
+	
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Breve História\ldots}
+	\begin{itemize}[<+->]
+		\item[1972] Um grupo de investigadores da Universidade de Marselha desenvolveu 
+		um sistema de resolução para as Cláusulas de Horn;
+		\item[1980-] O governo Japonês investiu no projecto designado por quinta geração que
+		teve como resultado grandes contribuições para a computação lógica;
+		\item[2008] Julián-Iranzo, Rubio-Manzano e Gallardo Casero 
+	propuseram uma extensão à máquina de inferência Prolog,
+	utilizando lógica Fuzzy, para que existissem ``respostas
+	mais flexíveis às perguntas''. Para isso foi implementado
+	o sistema Bousi~Prolog e continua em desenvolvimento na
+	Universidad de Castilla-La Mancha.	
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Porquê Prolog?}
+\begin{itemize}[<+->]
+\item 
+	\begin{tabular}{p{3cm}p{5cm}}
+{\textbf{Convencional}} & Processamento Numérico \\
+{\textbf{Lógica}}  & Processamento Simbólico;
+	\end{tabular}
+\item 
+	\begin{tabular}{p{3cm}p{5cm}}
+{\textbf{Convencional}} & Soluções Algorítmicas \\
+{\textbf{Lógica}}  & Soluções Heurística;
+	\end{tabular}
+\item 
+	\begin{tabular}{p{3cm}p{5cm}}
+{\textbf{Convencional}} & Estruturas de Controle e Conhecimento Integradas  \\
+{\textbf{Lógica}}  &  Estruturas de Controle e Conhecimento Separadas.  
+	\end{tabular}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Porquê Prolog?}
+\begin{itemize}[<+->]
+\item 
+	\begin{tabular}{p{3cm}p{5cm}}
+{\textbf{Convencional}} & Difícil Modificação \\
+{\textbf{Lógica}}  & Fácil Modificação ;
+	\end{tabular}
+\item 
+	\begin{tabular}{p{3cm}p{5cm}}
+{\textbf{Convencional}} & Somente Respostas Totalmente Correctas \\
+{\textbf{Lógica}}  & Incluem Respostas Parcialmente Correctas;
+	\end{tabular}
+\item 
+	\begin{tabular}{p{3cm}p{5cm}}
+{\textbf{Convencional}} & Somente a Melhor Solução Possível  \\
+{\textbf{Lógica}}  &  Incluem Todas as Soluções Possíveis.  
+	\end{tabular}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Arquitectura Prolog}
+\pgfdeclareimage[width=.8\textwidth]{bc}{img/bc}
+\begin{figure}
+\centering
+\pgfuseimage{bc}
+\caption{Arquitectura Prolog}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Nota}
+\begin{itemize}
+	\item Basicamente um programa Prolog é um conjunto de \alert{Factos} e \alert{Regras};
+	\item A interacção é feita através de \alert{Queries}.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Exemplo}
+	\pgfdeclareimage[height=3.5cm]{familia}{img/familia}
+	\begin{example}[Árvore Genealógica]				
+		Pretende-se escrever em prolog a árvore genealógica seguinte,
+		e representar as relações familiares entre os indivíduos.
+		\begin{figure}
+			\centering
+			\pgfuseimage{familia}
+		\end{figure}		
+	\end{example}
+\end{frame}
+
+\frame[label=showcode]{
+\pgfdeclareimage[height=7.5cm]{showcode}{img/showcode}
+\begin{figure}
+\centering
+\pgfuseimage{showcode}
+\end{figure}}
+
+\begin{frame}{Programa Heurístico}
+	\begin{example}[Alice na Floresta do esquecimento]
+		A Alice tinha má memória.
+		Um dia entrou na floresta do Esquecimento e esquesceu-se do dia-da-semana.
+		Os seus amigos \alert{Coelho} e \alert{Cuco} são visitantes frequentes da floresta. Estes dois
+		são criaturas estranhas.\\
+		O coelho \alert{mente} às \alert{Segundas}, \alert{Terças} e \alert{Quartas} e diz a \alert{verdade} no \alert{resto da Semana}.
+		Por outro lado, o Cuco \alert{mente} às \alert{Quintas}, \alert{Sextas} e \alert{Sábados} \alert{dizendo a verdade no resto dos dias}.
+	\end{example}
+\end{frame}
+
+\begin{frame}{Programa Heurístico}
+	\begin{example}[Alice na Floresta do esquecimento]
+		Um certo dia a Alice encontrou estes dois debaixo de uma árvore. Eles fizeram as seguintes declarações:
+		\begin{itemize}
+			\item Coelho: \alert{Ontem} foi um dos dias que eu \alert{menti};
+			\item Cuco: \alert{Ontem} foi um dos dias que eu \alert{menti}.
+		\end{itemize}
+		
+		A Alice foi capaz, usando estas declarações, de deduzir o dia-da-semana em que se encontrava.
+	\end{example}
+\end{frame}
+
+\begin{frame}{Programa Heurístico}
+	\begin{example}[Alice na Floresta do esquecimento]
+		Com este exemplo pretende-se: 
+		\begin{enumerate}
+			\item Escrever uma Base de Conhecimento que descreva esta história;
+			\item Escrever um predicado diadehoje/1 que lhe permita saber qual o dia-da-semana.
+		\end{enumerate}
+	\end{example}
+\end{frame}
+
+\againframe{showcode}
+
+\begin{frame}{Extensões Bousi-Prolog}
+	\begin{example}[Exemplos Bousi-Prolog]
+		Em seguida serão apresentados os seguintes exemplos em Bousi-Prolog
+		\begin{itemize}
+			\item Programa de cálculo de idades;
+			\item Programa de que emula um sistema de ``Information Retrieval'';
+			\item Programa de escolha de apartamento inteligente.
+		\end{itemize}
+	\end{example}
+\end{frame}
+
+\againframe{showcode}
+
+\section{E agora?}
+
+\begin{frame}{O que pode ser feito?}
+	\begin{itemize}[<+->]
+		\item Estudar o sistema que esta a ser desenvolvido na universidade
+		de Málaga \alert{FSQL} (Fuzzy SQL) e tentar integrar nos sistemas actuais
+		(Neste site propões-se a interacção com SQL Server e Oracle).
+		\item Estudar as funções Fuzzy disponibilizadas nos SGBDs actuais 
+		(exemplo Soundex e Difference no SQL SERVER).
+		\item Estudar os algoritmos de procura de pares em Fuzzy (Busca de informação repetida).
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{O que há para fazer ainda em Fuzzy?}
+	\begin{itemize}[<+->]
+		\item Implementar sistemas fuzzy com relações n-árias;
+		\item Estudar a possibilidade de desenvolver sistemas com Conjuntos Analógicos;
+		\item Modelação de um sistema deductivo de pesquisa de documentação inteligente.
+	\end{itemize}
+\end{frame}
+
+
+\section{Sumário}
+
+\begin{frame}{Sumário}
+\begin{block}{Recapitulando\ldots}
+	\begin{itemize}[<+->]
+		\item Vimos motivação do estudo da lógica Fuzzy, bem como
+		algumas vantagens da implementação desta;
+		\item Estudamos os conceitos Fundamentais da Lógica Fuzzy;
+		\item Resolvemos um exercício de Decisão recorrendo 
+		à metodologia Mamdani;
+		\item Apresentamos o sistema Bousi-Prolog, analizando para
+		isso vários exemplos de programas em Prolog e Bousi-Prolog;
+		\item Discutimos onde poderia ser usado o conceito na
+		nossa corporação e melhorias que poderiam ser feitas a este. 
+	\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}{Dúvidas?}
+\pgfdeclareimage[height=4.5cm]{duvidas}{img/duvidas}
+		\begin{figure}
+			\centering
+			\pgfuseimage{duvidas}
+		\end{figure}		
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%BIBLIOGRAFIA%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Referências}
+
+\begin{frame}[allowframebreaks]
+  \frametitle<presentation>{Para ler depois}
+    
+  \begin{thebibliography}{10}
+    
+  \beamertemplatebookbibitems
+  \bibitem{Tanaka1996}
+    Kazuo Tanaka.
+    \newblock {\em An Introduction to Fuzzy Logic for Practical Applications}.
+    \newblock Springer, 1996.
+
+  \bibitem{Shapiro1986}
+    Shapiro.
+    \newblock {\em The Art of Prolog}.
+    \newblock MIT Press, 1986.
+ 
+  \beamertemplatearticlebibitems
+  % Followed by interesting articles. Keep the list short. 
+
+  \bibitem{Zadeh1965}
+    Zadeh.
+    \newblock Fuzzy Sets.
+    \newblock {\em Information and Control}, 8(3):338--353,
+    1965.
+  \end{thebibliography}
+\end{frame}
+
+\appendix
+\section{\appendixname}
+\frame{\tableofcontents}
+\subsection{Material Adicional}
+
+\frame[label=eqpertencadetail]{
+  \frametitle{Definições Fuzzy --- Etiquetas e Conjuntos Fuzzy Detalhe}
+
+$$
+		\mu_X(x_0) = \left \{ \begin{array}{ll}
+				$1$ & \textrm{sse $x \in \mathcal{C}$} \\
+				$0$ & \textrm{sse $x \notin \mathcal{C}$} \\
+				$0$ \le \mu_X(x_0) \le 1 & \textrm{sse $x \sim \in \mathcal{C}$} \\
+			\end{array} \right . 
+		$$	
+
+    \hfill\hyperlink{eqpertenca}{\beamerreturnbutton{Voltar}}
+}
+
+\end{document}
+
+

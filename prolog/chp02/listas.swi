@@ -1,0 +1,41 @@
+%construcao de listas
+cons(X,Y,[X|Y]).
+
+%membro
+membro(X,[X|_]):-!.
+membro(X,[_|L]):- membro(X,L).
+
+%concatencacao
+conc([],L,L).
+conc([X1|L1],L2,[X1|LR]):-conc(L1,L2,LR).
+
+%remover
+remover(X,[X|L],L).
+remover(X,[Y|L],[Y|LR]) :- remover(X,L,LR).
+
+inverter([],[]).
+inverter([X|Y],LR):-inverter(Y,Z),conc(Z, [X], LR).
+
+sublista(S,L):- conc(_,L2,L), conc(S,_,L2).
+
+permutar([],[]).
+permutar([X|L],LR):- permutar(L,LP),remover(X,LR,LP). 
+
+tamanho([],0).
+tamanho([_|L],R) :- tamanho(L,V), R is V+1.
+
+par(X,[X|_]):- 0 is X mod 2.
+par(X,[_|T]):-par(X,T).  
+
+enesimo(1,X,[X|_]).
+enesimo(N,X,[_|L]):-enesimo(N1,X,L),N is N1 +1.
+
+selecciona([],_,[]).
+selecciona([H1|T1],L,[E|LR]):-enesimo(H1,E,L),selecciona(T1,L,LR).
+
+ordena([],[]).
+ordena([H|T],LR):-ordena(T,L),insere(H,L,LR).
+
+insere(X,[H|T1],[H|T2]):- X > H,!, insere(X,T1,T2).
+insere(X,L,[X|L]).
+

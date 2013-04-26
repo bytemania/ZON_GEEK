@@ -1,0 +1,42 @@
+%directivas
+:-dynamic masculino/1.
+
+%factos EXEMPLO 1 APRESENTACAO ZON 2009-01-01
+
+%progenitor(X,Y), X é progenitor de Y
+
+progenitor(maria,jose).
+progenitor(joao,jose).
+progenitor(joao,ana).
+progenitor(jose,julia).
+progenitor(jose,iris).
+progenitor(iris,jorge).
+
+masculino(joao).
+masculino(jose).
+masculino(jorge).
+
+feminino(maria).
+feminino(julia).
+feminino(ana).
+feminino(iris).
+
+%regras
+
+%filho(X,Y), X e Filho de Y
+% Raciocinio Para todo X/Y X e filho de Y sse Y e progenitor de X
+filho(X,Y):- progenitor(X,Y).
+
+%mae(X,Y) X e mae de Y
+mae(X,Y):- progenitor(X,Y),feminino(X).
+
+%avo(X,Z) x e avo de Z
+avo(X,Z):- progenitor(X,Y),progenitor(Y,Z).
+
+%irma(X,Y), X e irma de Y
+irma(X,Y):- progenitor(Z,X), progenitor(Z,Y), feminino(X), X\=Y.
+
+%Regra recursiva X e antepassado de Z
+antepassado(X,Z):- progenitor(X,Z).
+antepassado(X,Z):- progenitor(X,Y), antepassado(Y,Z).
+
